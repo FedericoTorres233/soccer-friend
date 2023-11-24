@@ -5,5 +5,5 @@ import (
 )
 
 func Commands(b *tele.Bot) {
-	starCommand(b)
+	firstCommand(b)
 }
