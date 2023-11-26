@@ -6,4 +6,5 @@ import (
 
 func Commands(b *tele.Bot) {
 	firstCommand(b)
+  everything(b)
 }
