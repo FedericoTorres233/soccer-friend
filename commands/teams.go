@@ -17,9 +17,12 @@ func get_teams(b *tele.Bot) {
 
 	b.Handle("/teams", func(c tele.Context) error {
 
-    // Select league
+		// Select league
 		var team_key string
 		league := c.Args()
+		if c.Args() == nil {
+			return c.Send("Please choose a league")
+		}
 		switch league[0] {
 		case "Premier":
 			team_key = "152"
@@ -30,7 +33,7 @@ func get_teams(b *tele.Bot) {
 		case "LaLiga":
 			team_key = "302"
 		default:
-			c.Send("Wrong league")
+			return c.Send("Wrong league")
 		}
 
 		// Fetch data from API
