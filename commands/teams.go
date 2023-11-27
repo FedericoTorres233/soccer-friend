@@ -17,8 +17,24 @@ func get_teams(b *tele.Bot) {
 
 	b.Handle("/teams", func(c tele.Context) error {
 
+    // Select league
+		var team_key string
+		league := c.Args()
+		switch league[0] {
+		case "Premier":
+			team_key = "152"
+		case "Bundesliga":
+			team_key = "175"
+		case "SerieA":
+			team_key = "207"
+		case "LaLiga":
+			team_key = "302"
+		default:
+			c.Send("Wrong league")
+		}
+
 		// Fetch data from API
-		var url string = "https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=175&APIkey=" + API_KEY
+		var url string = "https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=" + team_key + "&APIkey=" + API_KEY
 		resp, err := http.Get(url)
 		if err != nil {
 			log.Println(err)
