@@ -41,12 +41,14 @@ func get_teams(b *tele.Bot) {
 		resp, err := http.Get(url)
 		if err != nil {
 			log.Println(err)
+			return c.Send("An error has occurred")
 		}
 
 		defer resp.Body.Close()
 		body, err1 := ioutil.ReadAll(resp.Body)
 		if err1 != nil {
 			log.Println(err)
+			return c.Send("An error has occurred")
 		}
 
 		// Process json data
@@ -54,6 +56,7 @@ func get_teams(b *tele.Bot) {
 		err2 := json.Unmarshal(body, &data)
 		if err2 != nil {
 			log.Println(err)
+			return c.Send("An error has occurred")
 		}
 
 		// Make a string from the team slice
