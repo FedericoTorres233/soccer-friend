@@ -1,6 +1,6 @@
 package types
 
-type result struct {
+type Result struct {
   Result  []team `json:"result"`
   Success int    `json:"success"`
 }

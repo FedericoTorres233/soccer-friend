@@ -6,5 +6,6 @@ import (
 
 func Commands(b *tele.Bot) {
 	firstCommand(b)
+  get_teams(b)
   everything(b)
 }
