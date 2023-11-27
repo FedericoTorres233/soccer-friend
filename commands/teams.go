@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/federicotorres233/telebot/types"
 
@@ -23,14 +24,14 @@ func get_teams(b *tele.Bot) {
 		if c.Args() == nil {
 			return c.Send("Please choose a league")
 		}
-		switch league[0] {
-		case "Premier":
+		switch strings.ToLower(league[0]) {
+		case "premier":
 			team_key = "152"
-		case "Bundesliga":
+		case "bundesliga":
 			team_key = "175"
-		case "SerieA":
+		case "seriea":
 			team_key = "207"
-		case "LaLiga":
+		case "laliga":
 			team_key = "302"
 		default:
 			return c.Send("Wrong league")
