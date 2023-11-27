@@ -22,7 +22,7 @@ func get_teams(b *tele.Bot) {
 		var team_key string
 		league := c.Args()
 		if c.Args() == nil {
-			return c.Send("Please choose a league")
+			return c.Send("Choose a league:")
 		}
 		switch strings.ToLower(league[0]) {
 		case "premier":
@@ -33,6 +33,10 @@ func get_teams(b *tele.Bot) {
 			team_key = "207"
 		case "laliga":
 			team_key = "302"
+		case "ligue1":
+			team_key = "168"
+		case "eredivisie":
+			team_key = "244"
 		default:
 			return c.Send("Wrong league")
 		}
