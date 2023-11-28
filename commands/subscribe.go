@@ -24,8 +24,7 @@ func subscribe(b *tele.Bot) {
 		}
 
 		// If successful send message to user
-		c.Send("Subscribed to " + strings.Join(arguments, ", "))
-		return c.Send("You are currently subscribed to:" + strings.Join(userSubs[chatID], ", "))
+		return c.Send("You are currently subscribed to: " + strings.Join(userSubs[chatID], ", "))
 	})
 
 }
