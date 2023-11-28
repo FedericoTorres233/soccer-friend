@@ -12,7 +12,7 @@ func subscribe(b *tele.Bot) {
 	b.Handle("/subscribe", func(c tele.Context) error {
 
 		chatID := c.Chat().ID
-    arguments := c.Args()
+		arguments := c.Args()
 
 		// Update map to assign a chat to 1 or more teams
 		updatedUserSubs := append(userSubs[chatID], arguments...)
@@ -24,7 +24,8 @@ func subscribe(b *tele.Bot) {
 		}
 
 		// If successful send message to user
-		return c.Send("Subscribed to " + strings.Join(arguments, ", "))
+		c.Send("Subscribed to " + strings.Join(arguments, ", "))
+		return c.Send("You are currently subscribed to:" + strings.Join(userSubs[chatID], ", "))
 	})
 
 }
