@@ -2,6 +2,7 @@ package commands
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -20,11 +21,11 @@ func get_teams(b *tele.Bot) {
 
 		// Select league
 		var team_key string
-		league := c.Args()
 		if c.Args() == nil {
 			return c.Send("Choose a league: /teams [league]\n- Premier\n- Bundesliga\n- SerieA\n- LaLiga\n- Ligue1\n- Eredivisie")
 		}
-		switch strings.ToLower(league[0]) {
+		league := c.Args()[0]
+		switch strings.ToLower(league) {
 		case "premier":
 			team_key = "152"
 		case "bundesliga":
@@ -75,6 +76,6 @@ func get_teams(b *tele.Bot) {
 			teams += v.Name + ", "
 		}
 
-		return c.Send(teams)
+		return c.Send(fmt.Sprintf("These are the teams for %v: %v.\n\nUse /subscribe [team] to receive updates from a team", league, teams))
 	})
 }
