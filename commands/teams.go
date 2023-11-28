@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/federicotorres233/telebot/types"
+	"github.com/federicotorres233/soccer-friend/types"
 
 	tele "gopkg.in/telebot.v3"
 )

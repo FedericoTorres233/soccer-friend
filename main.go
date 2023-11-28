@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/federicotorres233/telebot/commands"
+	"github.com/federicotorres233/soccer-friend/commands"
 	"log"
 )
 

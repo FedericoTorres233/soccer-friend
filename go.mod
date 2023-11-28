@@ -1,4 +1,4 @@
-module github.com/federicotorres233/telebot
+module github.com/federicotorres233/soccer-friend
 
 go 1.19
 
