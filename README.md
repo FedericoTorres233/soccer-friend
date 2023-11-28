@@ -1,7 +1,7 @@
 # Soccer friend
 
 Soccer friend is a telegram bot that keeps you up to date with soccer, written in Go. Uses the REST API from allsportsapi.com
-My own bot is called `@soccer_friend_bot`. Check its features by sending `/start` to it.
+My own bot is called [`@soccer_friend_bot`](https://t.me/soccer_friend_bot). Check its features by sending `/start` to it.
 
 ## Getting started
 
