@@ -1,8 +1,8 @@
 build:
-	go build -o bin/app
+	go build -o bin/soccerfriend
 
 run: build
-	./bin/app
+	./bin/soccerfriend
 
 test:
 	go test -v ./... -count=1
