@@ -1,3 +1,4 @@
 /bin
 .replit
 replit.nix
+.env
