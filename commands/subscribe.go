@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"fmt"
 	"strings"
 
 	tele "gopkg.in/telebot.v3"
@@ -24,7 +25,7 @@ func subscribe(b *tele.Bot) {
 		}
 
 		// If successful send message to user
-		return c.Send("You are currently subscribed to: " + strings.Join(userSubs[chatID], ", "))
+		return c.Send(fmt.Sprintf("You are currently subscribed to: %v", strings.Join(userSubs[chatID], ", ")))
 	})
 
 }

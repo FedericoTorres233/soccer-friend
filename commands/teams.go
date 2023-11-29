@@ -44,7 +44,7 @@ func get_teams(b *tele.Bot) {
 		}
 
 		// Fetch data from API
-		var url string = "https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=" + team_key + "&APIkey=" + API_KEY
+		var url string = fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=%v&APIkey=%v", team_key, API_KEY)
 		resp, err := http.Get(url)
 		if err != nil {
 			log.Println(err)
