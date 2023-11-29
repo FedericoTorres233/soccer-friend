@@ -10,7 +10,7 @@ Soccer friend is a telegram bot that keeps you up to date with soccer, written i
 
 2. Clone repository
 ```bash
-git clone https://github.com/FedericoTorres233/soccer-friend && cd soccerfriend
+git clone https://github.com/FedericoTorres233/soccer-friend && cd soccer-friend
 ```
 
 3. Create a `.env` file in the project folder and add the following environmental variables:
@@ -27,7 +27,7 @@ make run
 
 1. Clone repository
 ```bash
-git clone https://github.com/FedericoTorres233/soccer-friend && cd soccerfriend
+git clone https://github.com/FedericoTorres233/soccer-friend && cd soccer-friend
 ```
 
 2. Set the environmental variables in the Dockerfile
