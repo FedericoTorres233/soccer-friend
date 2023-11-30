@@ -59,7 +59,7 @@ func get_teams(b *tele.Bot) {
 		}
 
 		// Process json data
-		var data types.Result
+		var data types.ApiResponseTeams
 		err2 := json.Unmarshal(body, &data)
 		if err2 != nil {
 			log.Println(err)
