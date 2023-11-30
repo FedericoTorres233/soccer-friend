@@ -26,8 +26,8 @@ WORKDIR /app
 COPY --from=build /app/bin/soccerfriend .
 #COPY --from=build /app/.env .
 
-ENV TOKEN=""
-ENV APIKEY=""
+ENV TG_TOKEN=""
+ENV API_KEY=""
 
 # Command to run the app
 CMD ["/app/soccerfriend"]

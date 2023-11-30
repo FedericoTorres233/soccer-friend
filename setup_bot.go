@@ -2,15 +2,14 @@ package main
 
 import (
 	"log"
-	"os"
 	"time"
 
 	tele "gopkg.in/telebot.v3"
 )
 
-func setupBot() (*tele.Bot, error) {
+func setupBot(TG_TOKEN string) (*tele.Bot, error) {
 	pref := tele.Settings{
-		Token:  os.Getenv("TOKEN"),
+		Token:  TG_TOKEN,
 		Poller: &tele.LongPoller{Timeout: 10 * time.Second},
 	}
 

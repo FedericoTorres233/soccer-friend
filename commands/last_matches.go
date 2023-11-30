@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/federicotorres233/soccer-friend/types"
@@ -14,8 +13,7 @@ import (
 	tele "gopkg.in/telebot.v3"
 )
 
-func get_last_matches(b *tele.Bot) {
-	var API_KEY string = os.Getenv("APIKEY")
+func get_last_matches(b *tele.Bot, API_KEY string) {
 
 	b.Handle("/last", func(c tele.Context) error {
 
