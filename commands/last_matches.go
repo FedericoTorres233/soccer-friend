@@ -3,15 +3,34 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"strings"
 
 	"github.com/federicotorres233/soccer-friend/types"
+	"github.com/federicotorres233/soccer-friend/utils"
 
 	tele "gopkg.in/telebot.v3"
 )
+
+func team_result(a byte, b byte, home bool) string {
+	if a == b {
+		// draw
+		return "d"
+	}
+	if a > b {
+		// won if at home
+		if home {
+			return "w"
+		}
+		return "l"
+	} else {
+		// lost if at home
+		if home {
+			return "l"
+		}
+		return "w"
+	}
+}
 
 func get_last_matches(b *tele.Bot, API_KEY string) {
 
@@ -22,15 +41,9 @@ func get_last_matches(b *tele.Bot, API_KEY string) {
 		}
 		team := strings.ToLower(strings.Join(c.Args(), " "))
 
-		var url1 string = fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&teamName=%v&APIkey=%v", team, API_KEY)
-		resp, err := http.Get(url1)
+		url1 := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&teamName=%v&APIkey=%v", team, API_KEY)
+		body, err := utils.Fetch(url1)
 		if err != nil {
-			log.Println(err)
-			return c.Send("An error has occurred")
-		}
-		defer resp.Body.Close()
-		body, err1 := ioutil.ReadAll(resp.Body)
-		if err1 != nil {
 			log.Println(err)
 			return c.Send("An error has occurred")
 		}
@@ -48,58 +61,48 @@ func get_last_matches(b *tele.Bot, API_KEY string) {
 
 		// Get matches from team id
 		team_id := data.Result[0].Key
-		var url string = fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=H2H&APIkey=%v&firstTeamId=%v&secondTeamId=%v", API_KEY, team_id, team_id+1)
-		resp1, err3 := http.Get(url)
+		url2 := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=H2H&APIkey=%v&firstTeamId=%v&secondTeamId=%v", API_KEY, team_id, team_id+1)
+		body1, err3 := utils.Fetch(url2)
 		if err3 != nil {
-			log.Println(err3)
-			return c.Send("An error has occurred")
-		}
-
-		defer resp1.Body.Close()
-		body1, err4 := ioutil.ReadAll(resp1.Body)
-		if err4 != nil {
-			log.Println(err4)
+			log.Println(err)
 			return c.Send("An error has occurred")
 		}
 
 		var data1 types.ApiResponseH2H
-		err5 := json.Unmarshal(body1, &data1)
-		if err5 != nil {
-			log.Println(err5)
+		err4 := json.Unmarshal(body1, &data1)
+		team_results := data1.Result.FirstTeamResults
+		if err4 != nil {
+			log.Println(err4)
 			return c.Send("An error has occurred")
 		}
-		if len(data1.Result.FirstTeamResults) == 0 {
+		if len(team_results) == 0 {
 			return c.Send("Please enter the full team name, check /teams")
 		}
 
 		last_5_matches := "These are the last 5 matches:\n\n"
-		for k, v := range data1.Result.FirstTeamResults {
+		for k, v := range team_results {
 			if k > 4 {
 				break
 			}
 			if strings.ToLower(v.Event_home_team) == team {
 				// Team played at home
-				if v.Event_final_result[0] > v.Event_final_result[4] {
-					// Won
+				switch team_result(v.Event_final_result[0], v.Event_final_result[4], true) {
+				case "w":
 					last_5_matches += fmt.Sprintf("Won %v versus %v at home \n", v.Event_final_result, v.Event_away_team)
-				} else if v.Event_final_result[0] < v.Event_final_result[4] {
-					// Lost
+				case "l":
 					last_5_matches += fmt.Sprintf("Lost %v versus %v at home \n", v.Event_final_result, v.Event_away_team)
-				} else {
-					// draw
+				case "d":
 					last_5_matches += fmt.Sprintf("Draw %v versus %v at home \n", v.Event_final_result, v.Event_away_team)
 				}
 			} else {
 				// Team played away
-				if v.Event_final_result[0] > v.Event_final_result[4] {
-					// Lost
-					last_5_matches += fmt.Sprintf("Lost %v versus %v at home \n", v.Event_final_result, v.Event_home_team)
-				} else if v.Event_final_result[0] < v.Event_final_result[4] {
-					// Won
-					last_5_matches += fmt.Sprintf("Won %v versus %v at home \n", v.Event_final_result, v.Event_home_team)
-				} else {
-					// draw
-					last_5_matches += fmt.Sprintf("Draw %v versus %v at home \n", v.Event_final_result, v.Event_home_team)
+				switch team_result(v.Event_final_result[0], v.Event_final_result[4], false) {
+				case "w":
+					last_5_matches += fmt.Sprintf("Won %v versus %v away\n", v.Event_final_result, v.Event_home_team)
+				case "l":
+					last_5_matches += fmt.Sprintf("Lost %v versus %v away \n", v.Event_final_result, v.Event_home_team)
+				case "d":
+					last_5_matches += fmt.Sprintf("Draw %v versus %v away \n", v.Event_final_result, v.Event_home_team)
 				}
 			}
 		}

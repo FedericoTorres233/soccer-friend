@@ -3,12 +3,11 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"strings"
 
 	"github.com/federicotorres233/soccer-friend/types"
+	"github.com/federicotorres233/soccer-friend/utils"
 
 	tele "gopkg.in/telebot.v3"
 )
@@ -37,29 +36,21 @@ func get_teams(b *tele.Bot, API_KEY string) {
 		case "eredivisie":
 			team_key = "244"
 		default:
-			c.Send("That league does not exist")
-			return c.Send("Choose one like this: /teams [league]\n- Premier\n- Bundesliga\n- SerieA\n- LaLiga\n- Ligue1\n- Eredivisie")
+			return c.Send("That league does not exist.\nChoose one like this: /teams [league]\n- Premier\n- Bundesliga\n- SerieA\n- LaLiga\n- Ligue1\n- Eredivisie")
 		}
 
 		// Fetch data from API
-		var url string = fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=%v&APIkey=%v", team_key, API_KEY)
-		resp, err := http.Get(url)
+		url := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=%v&APIkey=%v", team_key, API_KEY)
+		body, err := utils.Fetch(url)
 		if err != nil {
-			log.Println(err)
-			return c.Send("An error has occurred")
-		}
-
-		defer resp.Body.Close()
-		body, err1 := ioutil.ReadAll(resp.Body)
-		if err1 != nil {
 			log.Println(err)
 			return c.Send("An error has occurred")
 		}
 
 		// Process json data
 		var data types.ApiResponseTeams
-		err2 := json.Unmarshal(body, &data)
-		if err2 != nil {
+		err1 := json.Unmarshal(body, &data)
+		if err1 != nil {
 			log.Println(err)
 			return c.Send("An error has occurred")
 		}
