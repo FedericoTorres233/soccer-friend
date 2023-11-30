@@ -19,21 +19,21 @@ type result struct {
 	SecondTeamResults []match `json:"secondTeamResults"`
 }
 type match struct {
-	Event_key             string
+	Event_key             int
 	Event_date            string
 	Event_time            string
 	Event_home_team       string
-	Home_team_key         string
+	Home_team_key         int
 	Event_away_team       string
-	Away_team_key         string
+	Away_team_key         int
 	Event_halftime_result string
 	Event_final_result    string
 	Event_status          string
 	Country_name          string
 	League_name           string
-	League_key            string
+	League_key            int
 	League_round          string
 	League_season         string
 	Event_live            string
-	Event_country_key     string
+	Event_country_key     int
 }
