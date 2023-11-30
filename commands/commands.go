@@ -14,8 +14,8 @@ var commands = [5]string{
 
 func Commands(b *tele.Bot, API_KEY string) {
 	firstCommand(b)
-	get_teams(b,API_KEY)
+	get_teams(b, API_KEY)
 	everything(b)
 	subscribe(b)
-	get_last_matches(b,API_KEY)
+	get_last_matches(b, API_KEY)
 }

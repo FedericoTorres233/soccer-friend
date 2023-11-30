@@ -37,7 +37,7 @@ func get_teams(b *tele.Bot, API_KEY string) {
 		case "eredivisie":
 			team_key = "244"
 		default:
-			c.Send("Wrong league")
+			c.Send("That league does not exist")
 			return c.Send("Choose one like this: /teams [league]\n- Premier\n- Bundesliga\n- SerieA\n- LaLiga\n- Ligue1\n- Eredivisie")
 		}
 
