@@ -68,6 +68,9 @@ func get_last_matches(b *tele.Bot, API_KEY string) {
 			log.Println(err5)
 			return c.Send("An error has occurred")
 		}
+		if len(data1.Result.FirstTeamResults) == 0 {
+			return c.Send("Please enter the full team name, check /teams")
+		}
 
 		last_5_matches := "These are the last 5 matches:\n\n"
 		for k, v := range data1.Result.FirstTeamResults {
