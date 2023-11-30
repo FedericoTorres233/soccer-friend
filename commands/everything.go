@@ -1,8 +1,9 @@
 package commands
 
 import (
-	tele "gopkg.in/telebot.v3"
 	"log"
+
+	tele "gopkg.in/telebot.v3"
 )
 
 func everything(b *tele.Bot) {

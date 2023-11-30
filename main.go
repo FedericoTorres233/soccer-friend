@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/federicotorres233/soccer-friend/commands"
 	"log"
+
+	"github.com/federicotorres233/soccer-friend/commands"
 )
 
 func main() {
