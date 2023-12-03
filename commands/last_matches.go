@@ -88,21 +88,21 @@ func get_last_matches(b *tele.Bot, API_KEY string) {
 				// Team played at home
 				switch team_result(v.Event_final_result[0], v.Event_final_result[4], true) {
 				case "w":
-					last_5_matches += fmt.Sprintf("Won %v versus %v at home \n", v.Event_final_result, v.Event_away_team)
+					last_5_matches += fmt.Sprintf("Won %v versus %v at home 🏠\n\n", v.Event_final_result, v.Event_away_team)
 				case "l":
-					last_5_matches += fmt.Sprintf("Lost %v versus %v at home \n", v.Event_final_result, v.Event_away_team)
+					last_5_matches += fmt.Sprintf("Lost %v versus %v at home 🏠\n\n", v.Event_final_result, v.Event_away_team)
 				case "d":
-					last_5_matches += fmt.Sprintf("Draw %v versus %v at home \n", v.Event_final_result, v.Event_away_team)
+					last_5_matches += fmt.Sprintf("Draw %v versus %v at home 🏠\n\n", v.Event_final_result, v.Event_away_team)
 				}
 			} else {
 				// Team played away
 				switch team_result(v.Event_final_result[0], v.Event_final_result[4], false) {
 				case "w":
-					last_5_matches += fmt.Sprintf("Won %v versus %v away\n", v.Event_final_result, v.Event_home_team)
+					last_5_matches += fmt.Sprintf("Won %v versus %v away ✈️\n\n", v.Event_final_result, v.Event_home_team)
 				case "l":
-					last_5_matches += fmt.Sprintf("Lost %v versus %v away \n", v.Event_final_result, v.Event_home_team)
+					last_5_matches += fmt.Sprintf("Lost %v versus %v away ✈️\n\n", v.Event_final_result, v.Event_home_team)
 				case "d":
-					last_5_matches += fmt.Sprintf("Draw %v versus %v away \n", v.Event_final_result, v.Event_home_team)
+					last_5_matches += fmt.Sprintf("Draw %v versus %v away ✈️\n\n", v.Event_final_result, v.Event_home_team)
 				}
 			}
 		}
