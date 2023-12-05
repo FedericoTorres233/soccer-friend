@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
 
 func Fetch(url string) ([]byte, error) {
@@ -13,6 +14,8 @@ func Fetch(url string) ([]byte, error) {
 		log.Println(err)
 		return nil, err
 	}
+  resp.Header.Add("x-rapidapi-key", os.Getenv("API_KEY"))
+  resp.Header.Add("x-rapidapi-host", "v3.football.api-sports.io")
 
 	defer resp.Body.Close()
 

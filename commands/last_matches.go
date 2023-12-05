@@ -32,7 +32,7 @@ func team_result(a byte, b byte, home bool) string {
 	}
 }
 
-func get_last_matches(b *tele.Bot, API_KEY string) {
+func get_last_matches(b *tele.Bot) {
 
 	b.Handle("/last", func(c tele.Context) error {
 
@@ -41,7 +41,7 @@ func get_last_matches(b *tele.Bot, API_KEY string) {
 		}
 		team := strings.ToLower(strings.Join(c.Args(), " "))
 
-		url1 := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&teamName=%v&APIkey=%v", team, API_KEY)
+		url1 := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&teamName=%v&APIkey=%v", team)
 		body, err := utils.Fetch(url1)
 		if err != nil {
 			log.Println(err)
@@ -61,7 +61,7 @@ func get_last_matches(b *tele.Bot, API_KEY string) {
 
 		// Get matches from team id
 		team_id := data.Result[0].Key
-		url2 := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=H2H&APIkey=%v&firstTeamId=%v&secondTeamId=%v", API_KEY, team_id, team_id+1)
+		url2 := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=H2H&firstTeamId=%v&secondTeamId=%v", team_id, team_id+1)
 		body1, err3 := utils.Fetch(url2)
 		if err3 != nil {
 			log.Println(err)

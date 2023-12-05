@@ -12,7 +12,7 @@ import (
 	tele "gopkg.in/telebot.v3"
 )
 
-func process_team(c tele.Context, league string, API_KEY string) error {
+func process_team(c tele.Context, league string) error {
 	log.Println(league)
 	var team_key string
 	switch strings.ToLower(league) {
@@ -33,7 +33,7 @@ func process_team(c tele.Context, league string, API_KEY string) error {
 	}
 
 	// Fetch data from API
-	url := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=%v&APIkey=%v", team_key, API_KEY)
+	url := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=%v&APIkey=%v", team_key)
 	body, err := utils.Fetch(url)
 	if err != nil {
 		log.Println(err)
@@ -62,7 +62,7 @@ func process_team(c tele.Context, league string, API_KEY string) error {
 }
 
 // /teams command
-func get_teams(b *tele.Bot, API_KEY string) {
+func get_teams(b *tele.Bot) {
 
 	/*
 	  Set up inline keyboard
@@ -101,7 +101,7 @@ func get_teams(b *tele.Bot, API_KEY string) {
 		}
 		league := strings.Join(c.Args(), "")
 
-		return process_team(c, league, API_KEY)
+		return process_team(c, league)
 
 	})
 
@@ -111,7 +111,7 @@ func get_teams(b *tele.Bot, API_KEY string) {
 	for _, v := range league_buttons {
 		b.Handle(&v, func(c tele.Context) error {
 			league := strings.ReplaceAll(utils.RemoveEmojis(c.Message().Text), " ", "")
-			return process_team(c, league, API_KEY)
+			return process_team(c, league)
 		})
 	}
 
