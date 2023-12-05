@@ -9,13 +9,20 @@ import (
 
 func Fetch(url string) ([]byte, error) {
 	// Fetch data from API
-	resp, err := http.Get(url)
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
-  resp.Header.Add("x-rapidapi-key", os.Getenv("API_KEY"))
-  resp.Header.Add("x-rapidapi-host", "v3.football.api-sports.io")
+	req.Header.Add("x-rapidapi-key", os.Getenv("API_KEY"))
+	req.Header.Add("x-rapidapi-host", "v3.football.api-sports.io")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
 
 	defer resp.Body.Close()
 
