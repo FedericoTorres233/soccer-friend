@@ -12,26 +12,6 @@ import (
 	tele "gopkg.in/telebot.v3"
 )
 
-func team_result(a byte, b byte, home bool) string {
-	if a == b {
-		// draw
-		return "d"
-	}
-	if a > b {
-		// won if at home
-		if home {
-			return "w"
-		}
-		return "l"
-	} else {
-		// lost if at home
-		if home {
-			return "l"
-		}
-		return "w"
-	}
-}
-
 func get_last_matches(b *tele.Bot) {
 
 	b.Handle("/last", func(c tele.Context) error {
@@ -84,24 +64,25 @@ func get_last_matches(b *tele.Bot) {
 			score := fmt.Sprintf("%v - %v", v.Goals.Home, v.Goals.Away)
 			if strings.ToLower(v.Teams.Home.Name) == team {
 				// team is home
-				if v.Teams.Home.Winner {
-					last_5_matches += fmt.Sprintf("Won %v versus %v at home 🏠\n\n", score, v.Teams.Away.Name)
-				} else if v.Teams.Away.Winner {
-					last_5_matches += fmt.Sprintf("Lost %v versus %v at home 🏠\n\n", score, v.Teams.Away.Name)
-				} else {
-					last_5_matches += fmt.Sprintf("Draw %v versus %v at home 🏠\n\n", score, v.Teams.Away.Name)
-				}
+				status := get_match_result(v.Teams.Home.Winner, v.Teams.Away.Winner)
+				last_5_matches += fmt.Sprintf("%v %v versus %v at home 🏠\n\n", status, score, v.Teams.Away.Name)
 			} else {
 				// team is away
-				if v.Teams.Home.Winner {
-					last_5_matches += fmt.Sprintf("Lost %v versus %v away ✈️\n\n", score, v.Teams.Home.Name)
-				} else if v.Teams.Away.Winner {
-					last_5_matches += fmt.Sprintf("Won %v versus %v away ✈️\n\n", score, v.Teams.Home.Name)
-				} else {
-					last_5_matches += fmt.Sprintf("Draw %v versus %v away ✈️\n\n", score, v.Teams.Home.Name)
-				}
+				status := get_match_result(v.Teams.Away.Winner, v.Teams.Home.Winner)
+				last_5_matches += fmt.Sprintf("%v %v versus %v away ✈️\n\n", status, score, v.Teams.Home.Name)
 			}
 		}
 		return c.Send(last_5_matches)
 	})
+}
+
+func get_match_result(a bool, b bool) string {
+	// a and b will never be equal
+	if a {
+		return "Won"
+	} else if b {
+		return "Lost"
+	} else {
+		return "Draw"
+	}
 }
