@@ -4,7 +4,7 @@ type ApiResponseTeams struct {
 	Result  []team `json:"result"`
 	Success int    `json:"success"`
 }
-type team struct {
+type team_ struct {
 	Name string `json:"team_name"`
 	Key  int    `json:"team_key"`
 }
