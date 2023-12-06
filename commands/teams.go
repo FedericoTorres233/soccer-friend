@@ -13,27 +13,26 @@ import (
 )
 
 func process_team(c tele.Context, league string) error {
-	log.Println(league)
-	var team_key string
+	var league_id string
 	switch strings.ToLower(league) {
 	case "premier", "premierleague":
-		team_key = "152"
+		league_id = "39"
 	case "bundesliga":
-		team_key = "175"
+    league_id = "78"
 	case "seriea":
-		team_key = "207"
+    league_id = "135"
 	case "laliga":
-		team_key = "302"
+    league_id = "140"
 	case "ligue1":
-		team_key = "168"
+    league_id = "61"
 	case "eredivisie":
-		team_key = "244"
+    league_id = "88"
 	default:
 		return c.Send("That league does not exist.\nChoose one like this: /teams [league]\n- Premier\n- Bundesliga\n- SerieA\n- LaLiga\n- Ligue1\n- Eredivisie")
 	}
 
 	// Fetch data from API
-	url := fmt.Sprintf("https://apiv2.allsportsapi.com/football/?met=Teams&leagueId=%v&APIkey=%v", team_key)
+	url := fmt.Sprintf("https://v3.football.api-sports.io/teams?league=%v&season=2023", league_id)
 	body, err := utils.Fetch(url)
 	if err != nil {
 		log.Println(err)
@@ -41,21 +40,23 @@ func process_team(c tele.Context, league string) error {
 	}
 
 	// Process json data
-	var data types.ApiResponseTeams
+	var data types.Body
 	err1 := json.Unmarshal(body, &data)
 	if err1 != nil {
 		log.Println(err)
 		return c.Send("An error has occurred")
 	}
 
+  log.Println(data)
+
 	// Make a string from the team slice
 	var teams string
-	for k, v := range data.Result {
-		if k == len(data.Result)-1 {
-			teams += v.Name
+	for k, v := range data.Response {
+		if k == len(data.Response)-1 {
+			teams += v.Team.Name
 			break
 		}
-		teams += v.Name + ", "
+		teams += v.Team.Name + ", "
 	}
 
 	return c.Send(fmt.Sprintf("These are the teams for %v: %v.\n\nUse /subscribe [team] to receive updates from a team", league, teams))
