@@ -40,7 +40,7 @@ func process_team(c tele.Context, league string) error {
 	}
 
 	// Process json data
-	var data types.Body
+	var data types.Body_teams
 	err1 := json.Unmarshal(body, &data)
 	if err1 != nil {
 		log.Println(err)

@@ -1,24 +1,24 @@
 package types
 
-type Body struct {
+type Body_teams struct {
 	Get      string     `json:"get"`
 	Results  int        `json:"results"`
-	Response []TeamInfo `json:"response"`
+	Response []teamInfo `json:"response"`
 }
 
-type TeamInfo struct {
-	Team  Team  `json:"team"`
-	Venue Venue `json:"venue"`
+type teamInfo struct {
+	Team  team  `json:"team"`
+	Venue venue `json:"venue"`
 }
 
-type Team struct {
+type team struct {
 	Id      int    `json:"id"`
 	Name    string `json:"name"`
 	Code    string `json:"code"`
 	Country string `json:"country"`
 }
 
-type Venue struct {
+type venue struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
 }
