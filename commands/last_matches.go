@@ -56,7 +56,12 @@ func get_last_matches(b *tele.Bot) {
 			return c.Send("An error has occurred")
 		}
 
-		last_5_matches := "These are the last 5 matches:\n\n"
+    // Check if team entered is incomplete
+		if team != strings.ToLower(team_results[0].Teams.Home.Name) && team != strings.ToLower(team_results[0].Teams.Away.Name) {
+			return c.Send("Please enter full team name")
+		}
+
+		last_5_matches := fmt.Sprintf("These are the last 5 matches for %v:\n\n", team)
 		for k, v := range team_results {
 			if k > 4 {
 				break
@@ -65,11 +70,11 @@ func get_last_matches(b *tele.Bot) {
 			if strings.ToLower(v.Teams.Home.Name) == team {
 				// team is home
 				status := get_match_result(v.Teams.Home.Winner, v.Teams.Away.Winner)
-				last_5_matches += fmt.Sprintf("%v %v versus %v at home 🏠\n\n", status, score, v.Teams.Away.Name)
+				last_5_matches += fmt.Sprintf("%v %v versus %v at home 🏠 (%v)\n\n", status, score, v.Teams.Away.Name, v.League.Name)
 			} else {
 				// team is away
 				status := get_match_result(v.Teams.Away.Winner, v.Teams.Home.Winner)
-				last_5_matches += fmt.Sprintf("%v %v versus %v away ✈️\n\n", status, score, v.Teams.Home.Name)
+				last_5_matches += fmt.Sprintf("%v %v versus %v away ✈️ (%v)\n\n", status, score, v.Teams.Home.Name, v.League.Name)
 			}
 		}
 		return c.Send(last_5_matches)

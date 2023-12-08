@@ -11,6 +11,14 @@ type fixtureInfo struct {
 	Teams   teams   `json:"teams"`
 	Goals   goals   `json:"goals"`
 	Score   score   `json:"score"`
+	League  league  `json:"league"`
+}
+
+type league struct {
+	Id     int    `json:"id"`
+	Name   string `json:"name"`
+	Season int    `json:"season"`
+	Round  string `json:"round"`
 }
 
 type fixture struct {
